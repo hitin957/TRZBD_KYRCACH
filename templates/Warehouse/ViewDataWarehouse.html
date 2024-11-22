@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Работа с данными магазина</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <div class="px-3 py-2 bg-dark text-white">
+          <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+              <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                <li>
+                  <a href="{% url 'MainWarehouse' %}" class="nav-link text-secondary">
+                    Главная страница Начальника склада
+                  </a>
+                </li>
+                  <li>
+                  <a href="{% url 'ViewdataUserWarehouse' %}" class="nav-link text-secondary">Данные об начальнике склада</a> 
+                </li>
+                  <li>
+                  <a href="{% url 'ViewDataWarehouse' %}" class="nav-link text-white">Работа с данными магазина</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="px-3 py-2 border-bottom mb-3">
+          <div class="container d-flex flex-wrap justify-content-center">
+            <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+              <input hidden type="search" class="form-control" placeholder="Поиск..." aria-label="Search">
+            </form>
+            <div class="text-end">
+              <a href="{% url 'auth' %}"><button type="button" class="btn btn-light text-dark me-2">Авторизоваться</button></a>
+              <a href="{% url 'regis' %}"><button type="button" class="btn btn-primary">Зарегестрироваться</button></a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <form method="post">
+        <style>
+          .btnnew{
+           color: #313133;
+           background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+           font-size: 18px;
+           font-weight: 700;
+           letter-spacing: 1px;
+           text-transform: uppercase;
+           padding: 8px 20px;
+           margin: 0 15px;
+           border: none;
+           border-radius: 50px;
+           position: relative;
+           z-index: 1;
+           transition: all 0.3s ease-in-out 0s;
+          }
+          .btnnew:focus,
+          .btnnew:hover{
+           color: #313133;
+           background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+           transform: translateY(-6px);
+          } 
+          .btnnew:before{
+           content: '';
+           min-width: calc(100% + 17px);
+           min-height: calc(100% + 17px);
+           border-radius: 50px;
+           border: 5px solid #00FFCB;
+           box-shadow: 0 0 40px rgba(0,255,203,.7);
+           opacity: 0;
+           transform: translateX(-50%) translateY(-50%) scale(0.5);
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transition: all .3s ease-in-out 0s;
+          }
+          .btnnew:hover:before{
+           opacity: 1;
+           transform: translateX(-50%) translateY(-50%) scale(1);
+          }
+          @media only screen and (max-width: 767px){
+           .btnnew{ margin-bottom: 30px; }
+          }
+          </style>
+          <div align="center">
+            {% csrf_token %}
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Отделы">Отделы</button>
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Производители">Производители</button>
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Заказы">Заказы</button>
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Склады">Склады</button>
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Типы материала">Типы материала</button>
+        <button class="btnnew btnnew-lg" name="view" type="submit" value="Строительные материалы">Строительные материалы</button>
+          </div>
+      </form>
+      <br>
+      {% if view == none %}
+        <h3 align="center">{{ Data }}</h3>
+      {% endif %}
+      {% if view != none %}
+        <h3 align="center">{{ view }}</h3>
+        {% if view == "Производители" %}
+        <p align="center"><a href="{% url 'AddNewManufactire' %}"><button type="submit" class="btn btn-success">Добавить производителя</button></a></p>
+        <div align="center">
+          Экспорт Производителей:
+          <a href="{% url 'export_Manufactire_to_csv' %}"><button type="submit" class="btn btn-primary">Сделать экспорт производителей в CSV</button></a>
+          <a href="{% url 'export_Manufactire_to_sql' %}"><button type="submit" class="btn btn-light">Сделать экспорт производителей в SQL</button></a>
+        </div>
+        <br>
+        <div align="center">
+          Импорт Производителей:
+          <a href="{% url 'import_csvManufactire' %}"><button type="submit" class="btn btn-primary">Сделать импорт производителей из CSV</button></a>
+          <a href="{% url 'import_sql' %}"><button type="submit" class="btn btn-light">Сделать импорт производителей из SQL</button></a>
+        </div>
+        {% endif %}
+        {% if view == "Типы материала" %}
+        <p align="center"><a href="{% url 'AddNewTypeMaterial' %}"><button type="submit" class="btn btn-success">Добавить тип материала</button></a></p>
+        <div align="center">
+          Экспорт Типов материала:
+          <a href="{% url 'export_TypeMaterial_to_csv' %}"><button type="submit" class="btn btn-primary">Сделать экспорт типов материала в CSV</button></a>
+          <a href="{% url 'export_TypeMaterial_to_sql' %}"><button type="submit" class="btn btn-light">Сделать экспорт типов материала в SQL</button></a>
+        </div>
+        <br>
+        <div align="center">
+          Импорт Типов материала:
+          <a href="{% url 'import_csvTypeMaterial' %}"><button type="submit" class="btn btn-primary">Сделать импорт типов материала из CSV</button></a>
+          <a href="{% url 'import_sql' %}"><button type="submit" class="btn btn-light">Сделать импорт типов материала из SQL</button></a>
+        </div>
+        {% endif %}
+        {% if view == "Склады" %}
+        <p align="center"><a href="{% url 'AddNewWarehouse' %}"><button type="submit" class="btn btn-success">Добавить склад</button></a></p>
+        <div align="center">
+          Экспорт Складов:
+          <a href="{% url 'export_Warehouse_to_csv' %}"><button type="submit" class="btn btn-primary">Сделать экспорт складов в CSV</button></a>
+          <a href="{% url 'export_Warehouse_to_sql' %}"><button type="submit" class="btn btn-light">Сделать экспорт складов в SQL</button></a>
+        </div>
+        <br>
+        <div align="center">
+          Импорт Складов:
+          <a href="{% url 'import_csvWarehouse' %}"><button type="submit" class="btn btn-primary">Сделать импорт складов из CSV</button></a>
+          <a href="{% url 'import_sql' %}"><button type="submit" class="btn btn-light">Сделать импорт складов из SQL</button></a>
+        </div>
+        {% endif %}
+
+        {% if view == "Отделы" %}
+        <p align="center"><a href="{% url 'AddNewDepartment' %}"><button type="submit" class="btn btn-success">Добавить отдел</button></a></p>
+        <div align="center">
+          Экспорт Отделов:
+          <a href="{% url 'export_Departments_to_csv' %}"><button type="submit" class="btn btn-primary">Сделать экспорт Отделов в CSV</button></a>
+          <a href="{% url 'export_Departments_to_sql' %}"><button type="submit" class="btn btn-light">Сделать экспорт Отделов в SQL</button></a>
+        </div>
+        <br>
+        <div align="center">
+          Импорт Отделов:
+          <a href="{% url 'import_csvDepartments' %}"><button type="submit" class="btn btn-primary">Сделать импорт Отделов из CSV</button></a>
+          <a href="{% url 'import_sql' %}"><button type="submit" class="btn btn-light">Сделать импорт Отделов из SQL</button></a>
+        </div>
+        {% endif %}
+
+        {% if view == "Строительные материалы" %}
+        <p align="center"><a href="{% url 'AddNewBuildMaterial' %}"><button type="submit" class="btn btn-success">Добавить строительный материал</button></a></p>
+        <div align="center">
+          Экспорт Строительных материалов:
+          <a href="{% url 'export_query_to_csv' %}"><button type="submit" class="btn btn-primary">Сделать экспорт строительных материалов в CSV</button></a>
+          <a href="{% url 'export_query_to_sql' %}"><button type="submit" class="btn btn-light">Сделать экспорт строительных материалов в SQL</button></a>
+        </div>
+        <br>
+        <div align="center">
+          Импорт Строительных материалов:
+          <a href="{% url 'import_csvBuildingMaterials' %}"><button type="submit" class="btn btn-primary">Сделать импорт строительных материалов из CSV</button></a>
+          <a href="{% url 'import_sql' %}"><button type="submit" class="btn btn-light">Сделать импорт строительных материалов из SQL</button></a>
+        </div>
+         {% endif %}
+
+      <br>
+      {% for i in Data %}
+      <div class="container">
+        <div class="card">
+      <h5 class="card-header">Номер записи: {{ i.pk }}</h5> 
+      <div class="card-body">
+        <!--Вывод Отделов-->
+        {% if view == "Отделы" %}
+          <h5 class="card-title"><i><b>Колличество:</b></i> {{ i.counts }}</h5>
+          <p class="card-text"><i><b>Склад:</b></i> {{ i.fk_warehouse }}</p>
+          <p class="card-text"><i><b>Строительный материал:</b></i> {{ i.fk_building_materials }}</p>
+          <a href="UpdateDepartments/{{ i.pk }}/"><button type="submit" class="btn btn-warning">Изменить</button></a>
+          <a href="DeleteDepartments/{{ i.pk }}/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
+        <!--Вывод Производителей-->
+        {% if view == "Производители" %}
+        <h5 class="card-title"><i><b>Название производителя:</b></i> {{ i.name_manufacturer }}</h5>
+        <p class="card-text"><i><b>Страна: {{ i.country }}</p>
+        <a href="UpdateManifacture/{{ i.pk }}"><button type="submit" class="btn btn-warning">Изменить</button></a>
+        <a href="DeleteManufactires/{{ i.pk }}/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
+        <!--Вывод Заказов-->
+        {% if view == "Заказы" %}
+          <h5 class="card-text"><i><b>Цена:</b></i> {{ i.price }}</h5>
+          <p class="card-text"><i><b>Способ оплаты:</b></i> {{ i.payment_method }}</p>
+          <p class="card-text"><i><b>Способ получения:</b></i> {{ i.the_method_of_obtaining }}</p>
+          <p class="card-text"><i><b>Статус заказа:</b></i> {{ i.status_order }}</p>
+          <p class="card-text"><i><b>Адрес доставки:</b></i> {{ i.delivery_address }}</p>
+          <p class="card-text"><i><b>Корзина:</b></i> {{ i.fk_cart }}</p>
+          <p class="card-text"><i><b>Пользователь:</b></i> {{ i.fk_users }}</p>
+          <a href="UpdateOrderStatus/{{ i.pk }}"><button class="btn btn-warning">Изменить</button></a>
+        {% endif %}
+        <!--Вывод Складов-->
+        {% if view == "Склады" %}
+        <h5 class="card-title"><i><b>Название склада:</b></i> {{ i.name_warehouse }}</h5>
+          <p class="card-text"><i><b>Адресс склада:</b></i> {{ i.adress_warehouse }}</p>
+          <a href="UpdateWarehouse/{{ i.pk }}"><button type="submit" class="btn btn-warning">Изменить</button></a>
+          <a href="DeleteWarehouse/{{ i.pk }}/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+          {% endif %}
+        <!--Вывод Типов материалов-->
+        {% if view == "Типы материала" %}
+        <h5 class="card-title"><i><b>Название типа:</b></i> {{ i.name_type }}</h5>
+        <a href="UpdateTypeMaterial/{{ i.pk }}"><button type="submit" class="btn btn-warning">Изменить</button></a>
+        <a href="DeleteTypeMaterials/{{ i.pk }}/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
+        {% if view == "Строительные материалы" %}
+        <h5 class="card-text"><i><b>Название:</b></i> {{ i.name }}</h5>
+        <p class="card-text"><i><b>Описание:</b></i> {{ i.description }}</p>
+        <p class="card-text"><i><b>Цена:</b></i> {{ i.price }} рублей</p>
+        <p class="card-text"><i><b>Производитель:</b></i> {{ i.fk_manufacturer }}</p>
+        <p class="card-text"><i><b>Тип строительного материала:</b></i> {{ i.fk_type_material }}</p>
+        <a href="UpdateBuildMaterials/{{ i.pk }}/"><button type="submit" class="btn btn-warning">Изменить</button></a>
+        <a href="DeleteBuildMaterials/{{ i.pk }}/"><button type="submit" class="btn btn-danger">Удалить</button></a>
+        {% endif %}
+      </div>
+      </div>
+    </div>
+    <br>
+    <br>
+      {% endfor %}
+      {% endif %}
+</body>
+</html>

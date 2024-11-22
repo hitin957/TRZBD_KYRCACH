@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+
+  frontend:
+    restart: always
+    build: ./templates
+    ports:
+      - 8549:8549
+  
+  postgres:
+    container_name: postgres-db
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: my_postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "4120:5432"
+    
+  adminer:
+    restart: always
+    image: adminer
+    container_name: adminer
+    ports:
+      - 3566:8080
+
+volumes:
+  postgres_data:
