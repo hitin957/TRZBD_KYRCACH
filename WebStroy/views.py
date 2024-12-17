@@ -12,19 +12,20 @@ import datetime
 o = 0
 login = ''
 password = ''
-idid=0
-Name=''
-Last_name=''
-Middel_name=''
-IsCreate=False
-cklad= ''
-adress=''
-pay=''
-NumberCard=''
-Crok=''
-Cvc=''
+idid = 0
+Name = ''
+Last_name = ''
+Middel_name = ''
+IsCreate = False
+cklad = ''
+adress = ''
+pay = ''
+NumberCard = ''
+Crok = ''
+Cvc = ''
 
-def write_logger_user(me): # логирование пользователей
+
+def write_logger_user(me):  # логирование пользователей
     singer=Signer()
     # Подключение к БД
     conn = psycopg2.connect("dbname='WriteLogger' user='postgres' host='127.0.0.1' password='123'")
@@ -33,7 +34,8 @@ def write_logger_user(me): # логирование пользователей
     conn.commit()
     conn.close()
 
-def Main(request):# главная страница пользователя
+
+def Main(request):  # главная страница пользователя
     materials=BuildingMaterials.objects.all()
     if o == 0:
         return render(request, 'User/Main.html', {'auth': 'Вы не авторизованы поэтому вы "Гость"',
