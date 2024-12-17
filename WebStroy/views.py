@@ -44,9 +44,9 @@ def Main(request):# главная страница пользователя
             materials = BuildingMaterials.objects.filter(name__icontains=search)
         global IsCreate
         if IsCreate==False:
-            user=Users.objects.get(pk=idid)
+            user=Users.objects.filter(pk=idid)
             try:
-                Cart.objects.get(fk_users=idid)
+                Cart.objects.filter(fk_users=idid)
             except Cart.DoesNotExist:
                 Cart.objects.create(fk_users=user)
             IsCreate=True

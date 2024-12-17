@@ -131,13 +131,13 @@ class TypeMaterial(models.Model):
 
 
 class Users(models.Model):
-    surname = models.CharField(verbose_name='Фамилия')
-    name = models.CharField(verbose_name='Имя')
-    midellname = models.CharField(verbose_name='Отчество')
+    surname = models.TextField(verbose_name='Фамилия')
+    name = models.TextField(verbose_name='Имя')
+    midellname = models.TextField(verbose_name='Отчество')
     date_birth = models.DateField(verbose_name='Дата рождения')
-    number_phone = models.CharField(verbose_name='Номер телефона')
-    login = models.CharField(verbose_name='Логин')
-    password = models.CharField(verbose_name='Пароль')
+    number_phone = models.TextField(verbose_name='Номер телефона')
+    login = models.TextField(verbose_name='Логин')
+    password = models.TextField(verbose_name='Пароль')
     fk_pasport_data = models.ForeignKey(PasportData, models.DO_NOTHING, db_column='fk_pasport_data', blank=True, null=True, verbose_name='Паспортные данные')
     fk_role = models.ForeignKey(Role, models.DO_NOTHING, db_column='fk_role', verbose_name='Роль')
 

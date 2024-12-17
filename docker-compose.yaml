@@ -1,32 +1,34 @@
-version: '3'
+version: '3.8'
 
 services:
-
-  frontend:
+  db:
+    image: postgres:13
     restart: always
-    build: ./templates
-    ports:
-      - 8549:8549
-  
-  postgres:
-    container_name: postgres-db
-    restart: always
-    image: postgres
     environment:
-      POSTGRES_USER: postgres_user
-      POSTGRES_PASSWORD: postgres_password
-      POSTGRES_DB: my_postgres_db
+      POSTGRES_DB: TRZBDWEBStroY
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '123'
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python manage.py runserver 127.0.0.1:8000
+    volumes:
+      - .:/code
     ports:
-      - "4120:5432"
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:123@db/TRZBDWEBStroY
     
   adminer:
     restart: always
     image: adminer
-    container_name: adminer
     ports:
-      - 3566:8080
+      - 8888:5000
 
 volumes:
   postgres_data:
